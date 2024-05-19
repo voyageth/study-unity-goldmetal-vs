@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -14,27 +16,15 @@ public class Player : MonoBehaviour
         rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        inputVector.x = Input.GetAxisRaw("Horizontal");
-        inputVector.y = Input.GetAxisRaw("Vertical");
-    }
-
     private void FixedUpdate()
     {
-        // add force
-        //rigidbody2D.AddForce(inputVector);
-        // velocity
-        //rigidbody2D.velocity = inputVector;
         // move
-        Vector2 nextVector = inputVector.normalized * speed * Time.fixedDeltaTime;
+        Vector2 nextVector = inputVector * speed * Time.fixedDeltaTime;
         rigidbody2D.MovePosition(rigidbody2D.position + nextVector);
+    }
+
+    void OnMove(InputValue inputValue)
+    {
+        inputVector = inputValue.Get<Vector2>();
     }
 }
