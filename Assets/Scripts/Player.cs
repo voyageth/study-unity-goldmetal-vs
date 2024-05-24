@@ -32,6 +32,10 @@ public class Player : MonoBehaviour
         inputVector = inputValue.Get<Vector2>();
     }
 
+    void OnFire(InputValue inputValue)
+    {
+    }
+
     private void LateUpdate()
     {
         animator.SetFloat("Speed", inputVector.magnitude);
