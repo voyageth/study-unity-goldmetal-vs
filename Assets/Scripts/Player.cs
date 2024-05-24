@@ -9,13 +9,13 @@ public class Player : MonoBehaviour
     public Vector2 inputVector;
     public float speed;
 
-    Rigidbody2D rigidbody2D;
+    Rigidbody2D playerRigidbody;
     SpriteRenderer spriteRenderer;
     Animator animator;
 
     private void Awake()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        playerRigidbody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     {
         // move
         Vector2 nextVector = inputVector * speed * Time.fixedDeltaTime;
-        rigidbody2D.MovePosition(rigidbody2D.position + nextVector);
+        playerRigidbody.MovePosition(playerRigidbody.position + nextVector);
     }
 
     void OnMove(InputValue inputValue)

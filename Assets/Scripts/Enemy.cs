@@ -5,15 +5,20 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float speed;
+    public float health;
+    public float maxHealth;
+    public RuntimeAnimatorController[] runtimeAnimatorController;
     public Rigidbody2D target;
 
-    bool isLive = true;
-    Rigidbody2D rigidbody2D;
+    bool isLive;
+    Rigidbody2D enemyRigidbody;
+    Animator animator;
     SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        enemyRigidbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -22,11 +27,11 @@ public class Enemy : MonoBehaviour
         if (!isLive)
             return;
 
-        Vector2 directionVector = target.position - rigidbody2D.position;
+        Vector2 directionVector = target.position - enemyRigidbody.position;
         Vector2 nextVector = directionVector.normalized * speed * Time.fixedDeltaTime;
 
-        rigidbody2D.MovePosition(rigidbody2D.position + nextVector);
-        rigidbody2D.velocity = Vector2.zero;
+        enemyRigidbody.MovePosition(enemyRigidbody.position + nextVector);
+        enemyRigidbody.velocity = Vector2.zero;
     }
 
     private void LateUpdate()
@@ -34,11 +39,21 @@ public class Enemy : MonoBehaviour
         if (!isLive)
             return;
         
-        spriteRenderer.flipX = target.position.x < rigidbody2D.position.x;
+        spriteRenderer.flipX = target.position.x < enemyRigidbody.position.x;
     }
 
     private void OnEnable()
     {
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
+        isLive = true;
+        health = maxHealth;
+    }
+
+    public void Init(SpawnData data)
+    {
+        animator.runtimeAnimatorController = runtimeAnimatorController[data.spriteType];
+        speed = data.speed;
+        maxHealth = data.health;
+        health = maxHealth;
     }
 }
