@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 
 [Serializable]
@@ -14,7 +15,8 @@ public class PrefabTypeGameObjectPair
 public enum PrefabType
 {
     ENEMY,
-    BULLET,
+    BULLET_0,
+    BULLET_1,
 }
 
 static class EnumCache<T> where T : Enum
@@ -34,7 +36,6 @@ public class PoolManager : MonoBehaviour
 
     Dictionary<PrefabType, GameObject> prefabDictionary;
     Dictionary<PrefabType, List<GameObject>> prefabPoolDictionary;
-
 
     private void Awake()
     {
@@ -66,7 +67,8 @@ public class PoolManager : MonoBehaviour
             }
         }
 
-        GameObject newItem = Instantiate(prefabDictionary[prefabType]);
+        GameObject newItem = Instantiate(prefabDictionary[prefabType], transform);
+        newItem.name = "[" + prefabType + "] " + System.Guid.NewGuid().ToString();
         gameObjects.Add(newItem);
         return newItem;
     }
