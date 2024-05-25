@@ -13,11 +13,8 @@ public class PrefabTypeGameObjectPair
 
 public enum PrefabType
 {
-    ENEMY_A,
-    ENEMY_B,
-    ENEMY_C,
-    ENEMY_D,
-    ENEMY_E,
+    ENEMY,
+    BULLET,
 }
 
 static class EnumCache<T> where T : Enum
