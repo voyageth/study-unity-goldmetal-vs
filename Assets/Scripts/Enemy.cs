@@ -13,19 +13,23 @@ public class Enemy : MonoBehaviour
 
     bool isLive;
     Rigidbody2D enemyRigidbody;
+    Collider2D enemyCollider;
     Animator animator;
     SpriteRenderer spriteRenderer;
+    WaitForFixedUpdate waitForKnockBack;
 
     private void Awake()
     {
         enemyRigidbody = GetComponent<Rigidbody2D>();
+        enemyCollider = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        waitForKnockBack = new WaitForFixedUpdate();
     }
 
     private void FixedUpdate()
     {
-        if (!isLive)
+        if (!isLive || animator.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
             return;
 
         Vector2 directionVector = target.position - enemyRigidbody.position;
@@ -47,6 +51,10 @@ public class Enemy : MonoBehaviour
     {
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
         isLive = true;
+        enemyCollider.enabled = true;
+        enemyRigidbody.simulated = true;
+        spriteRenderer.sortingOrder = 2;
+        animator.SetBool("Dead", false);
         health = maxHealth;
     }
 
@@ -60,20 +68,35 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Bullet"))
+        if (!collision.CompareTag("Bullet") || !isLive)
             return;
 
         Bullet bullet = collision.GetComponent<Bullet>();
         health -= bullet.damage;
+        StartCoroutine(KnockBack());
 
         if (health > 0)
         {
-            // live
+            // hit action
+            animator.SetTrigger("Hit");
         }
         else
         {
-            Dead();
+            isLive = false;
+            enemyCollider.enabled = false;
+            enemyRigidbody.simulated = false;
+            spriteRenderer.sortingOrder = 1;
+            animator.SetBool("Dead", true);
+            GameManager.instance.KillEnemy();
         }
+    }
+
+    IEnumerator KnockBack()
+    {
+        yield return waitForKnockBack; // 하나의 물리 프레임 딜레이
+        Vector3 playerPosition = GameManager.instance.player.transform.position;
+        Vector3 direction = transform.position - playerPosition;
+        enemyRigidbody.AddForce(direction.normalized * 3, ForceMode2D.Impulse);
     }
 
     void Dead()
