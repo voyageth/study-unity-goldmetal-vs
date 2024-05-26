@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public Player player;
 
     [Header("# Player Info")]
+    public int health;
+    public int maxHealth;
     public int level;
     public int kill;
     public int exp;
@@ -23,6 +25,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        health = maxHealth;
     }
 
     private void Update()
@@ -44,5 +51,23 @@ public class GameManager : MonoBehaviour
             level++;
             exp = 0;
         }
+    }
+
+    public float GetExpPercentage()
+    {
+        return ((float)exp) / nextExp[level];
+    }
+
+    public (int, int) GetRemainTime()
+    {
+        float remainTime =  maxGameTimeInSeccond - gameTimeInSecond;
+        int min = Mathf.FloorToInt(remainTime / 60);
+        int second = Mathf.FloorToInt(remainTime % 60);
+        return (min, second);
+    }
+
+    public float GetHealthPercentage()
+    {
+        return ((float)health) / maxHealth;
     }
 }
