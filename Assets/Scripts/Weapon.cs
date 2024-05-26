@@ -73,6 +73,23 @@ public class Weapon : MonoBehaviour
                 break;
         }
 
+        // Hand Set
+        Hand hand = null;
+        switch(itemData.itemType)
+        {
+            case ItemData.ItemType.Melee:
+                hand = player.hands[0];
+                break;
+            case ItemData.ItemType.Range:
+                hand = player.hands[1];
+                break;
+        }
+        if (hand != null)
+        {
+            hand.spriteRenderer.sprite = itemData.hand;
+            hand.gameObject.SetActive(true);
+        }
+
         player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 

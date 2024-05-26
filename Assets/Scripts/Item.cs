@@ -31,7 +31,7 @@ public class Item : MonoBehaviour
     {
         switch(itemData.itemType)
         {
-            case ItemData.ItemType.Melle:
+            case ItemData.ItemType.Melee:
             case ItemData.ItemType.Range:
                 if (level == 0)
                 {

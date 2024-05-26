@@ -28,3 +28,4 @@ MonoBehaviour:
   counts: 0100000001000000010000000100000002000000
   weaponType: 1
   prefabType: 2
+  hand: {fileID: 143021600, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}

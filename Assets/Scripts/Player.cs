@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public Vector2 inputVector;
     public float speed;
     public Scanner scanner;
+    public Hand[] hands;
 
     Rigidbody2D playerRigidbody;
     SpriteRenderer spriteRenderer;
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        hands = GetComponentsInChildren<Hand>(true);
     }
 
     private void FixedUpdate()

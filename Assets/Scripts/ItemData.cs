@@ -13,7 +13,7 @@ public class ItemData : ScriptableObject
 
     public enum ItemType
     {
-        Melle,
+        Melee,
         Range,
         Glove,
         Shoe,
@@ -36,4 +36,5 @@ public class ItemData : ScriptableObject
     [Header("# Weapon")]
     public WeaponType weaponType;
     public PrefabType prefabType;
+    public Sprite hand;
 }
