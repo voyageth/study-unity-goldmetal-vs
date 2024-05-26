@@ -3,15 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum WeaponType
-{
-    WEAPON_0,
-    WEAPON_1,
-}
 
 public class Weapon : MonoBehaviour
 {
-    public WeaponType weaponType;
+    public int id;
+    public ItemData.WeaponType weaponType;
     public PrefabType prefabType;
     public float damage;
     public int count;
@@ -22,19 +18,18 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
-        player = GetComponentInParent<Player>();
+        player = GameManager.instance.player;
     }
 
     private void Start()
     {
-        Init();
     }
 
     void Update()
     {
         switch (weaponType)
         {
-            case WeaponType.WEAPON_0:
+            case ItemData.WeaponType.WEAPON_0:
                 transform.Rotate(Vector3.back * speed * Time.deltaTime);
                 break;
             default:
@@ -53,11 +48,23 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void Init()
+    public void Init(ItemData itemData)
     {
+        // Basic Set
+        name = "Weapon " + itemData.itemId;
+        transform.parent = player.transform;
+        transform.localPosition = Vector3.zero;
+
+        // Property Set
+        id = itemData.itemId;
+        damage = itemData.baseDamage;
+        count = itemData.baseCount;
+        weaponType = itemData.weaponType;
+        prefabType = itemData.prefabType;
+
         switch (weaponType)
         {
-            case WeaponType.WEAPON_0:
+            case ItemData.WeaponType.WEAPON_0:
                 speed = 150;
                 ActivateWeapon0();
                 break;
@@ -65,6 +72,8 @@ public class Weapon : MonoBehaviour
                 speed = 0.3f;
                 break;
         }
+
+        player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 
     public void LevelUp(float damage, int count)
@@ -72,10 +81,12 @@ public class Weapon : MonoBehaviour
         this.damage = damage;
         this.count += count;
 
-        if (weaponType == WeaponType.WEAPON_0)
+        if (weaponType == ItemData.WeaponType.WEAPON_0)
         {
             ActivateWeapon0();
         }
+
+        player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 
 
@@ -91,7 +102,7 @@ public class Weapon : MonoBehaviour
             }
             else
             {
-                bulletTransform = GameManager.instance.poolManager.Get(prefabType).transform;
+                bulletTransform = GameManager.instance.poolManager.Get(PrefabType.BULLET_0).transform;
                 bulletTransform.parent = transform;
             }
 

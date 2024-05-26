@@ -14,6 +14,7 @@ public class PrefabTypeGameObjectPair
 
 public enum PrefabType
 {
+    NONE,
     ENEMY,
     BULLET_0,
     BULLET_1,
