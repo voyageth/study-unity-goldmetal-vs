@@ -58,19 +58,19 @@ public class Weapon : MonoBehaviour
         transform.localPosition = Vector3.zero;
 
         // Property Set
-        damage = itemData.baseDamage;
-        count = itemData.baseCount;
+        damage = itemData.baseDamage * Character.Damage;
+        count = itemData.baseCount + Character.Count;
         weaponType = itemData.weaponType;
         prefabType = itemData.prefabType;
 
         switch (weaponType)
         {
             case ItemData.WeaponType.WEAPON_0:
-                speed = 150;
+                speed = 150 * Character.WeaponSpeed;
                 ActivateWeapon0();
                 break;
             default:
-                speed = 0.3f;
+                speed = 0.3f * Character.WeaponRate;
                 break;
         }
 
@@ -96,7 +96,7 @@ public class Weapon : MonoBehaviour
 
     public void LevelUp(float damage, int count)
     {
-        this.damage = damage;
+        this.damage = damage * Character.Damage;
         this.count += count;
 
         if (weaponType == ItemData.WeaponType.WEAPON_0)

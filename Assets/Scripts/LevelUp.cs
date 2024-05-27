@@ -1,6 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using static GameManager;
 
 public class LevelUp : MonoBehaviour
 {
@@ -26,9 +26,9 @@ public class LevelUp : MonoBehaviour
         GameManager.instance.Resume();
     }
 
-    public void Select(int index)
+    public void Select(int playerId)
     {
-        items[index].OnClick();
+        items[playerId].OnClick();
     }
 
     void Next()
@@ -43,9 +43,9 @@ public class LevelUp : MonoBehaviour
         int[] random = new int[3];
         while(true)
         {
-            random[0] = Random.Range(0, items.Length);
-            random[1] = Random.Range(0, items.Length);
-            random[2] = Random.Range(0, items.Length);
+            random[0] = UnityEngine.Random.Range(0, items.Length);
+            random[1] = UnityEngine.Random.Range(0, items.Length);
+            random[2] = UnityEngine.Random.Range(0, items.Length);
 
             if (random[0] != random[1] && random[1] != random[2] && random[1] != random[2])
                 break;

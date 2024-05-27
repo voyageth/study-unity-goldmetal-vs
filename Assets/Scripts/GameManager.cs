@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public GameObject enemyCleaner;
 
     [Header("# Player Info")]
+    public int playerId;
     public float health;
     public float maxHealth;
     public int level;
@@ -32,10 +33,13 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
-    public void GameStart()
+    public void GameStart(int id)
     {
+        this.playerId = id;
         health = maxHealth;
-        uiLevelUp.Select(0); // 임시 스크립트(첫번째 캐릭터 선택)
+
+        player.gameObject.SetActive(true);
+        uiLevelUp.Select(playerId % 2);
         Resume();
     }
 
