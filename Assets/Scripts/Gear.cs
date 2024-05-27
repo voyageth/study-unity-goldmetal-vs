@@ -10,7 +10,7 @@ public class Gear : MonoBehaviour
     public void Init(ItemData itemData)
     {
         // Basic Set
-        name = "Gear" + itemData.itemId;
+        name = "Gear" + itemData.itemType;
         transform.parent = GameManager.instance.player.transform;
         transform.localPosition = Vector3.zero;
 

@@ -26,6 +26,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!GameManager.instance.isLive)
+            return;
+        
         // move
         Vector2 nextVector = inputVector * speed * Time.fixedDeltaTime;
         playerRigidbody.MovePosition(playerRigidbody.position + nextVector);
@@ -33,15 +36,17 @@ public class Player : MonoBehaviour
 
     void OnMove(InputValue inputValue)
     {
+        if (!GameManager.instance.isLive)
+            return;
+        
         inputVector = inputValue.Get<Vector2>();
-    }
-
-    void OnFire(InputValue inputValue)
-    {
     }
 
     private void LateUpdate()
     {
+        if (!GameManager.instance.isLive)
+            return;
+        
         animator.SetFloat("Speed", inputVector.magnitude);
         if (inputVector.x !=0)
             spriteRenderer.flipX = inputVector.x < 0;

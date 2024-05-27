@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public int id;
     public ItemData.WeaponType weaponType;
     public PrefabType prefabType;
     public float damage;
@@ -27,6 +26,9 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.instance.isLive)
+            return;
+
         switch (weaponType)
         {
             case ItemData.WeaponType.WEAPON_0:
@@ -51,12 +53,11 @@ public class Weapon : MonoBehaviour
     public void Init(ItemData itemData)
     {
         // Basic Set
-        name = "Weapon " + itemData.itemId;
+        name = "Weapon " + itemData.itemType;
         transform.parent = player.transform;
         transform.localPosition = Vector3.zero;
 
         // Property Set
-        id = itemData.itemId;
         damage = itemData.baseDamage;
         count = itemData.baseCount;
         weaponType = itemData.weaponType;
