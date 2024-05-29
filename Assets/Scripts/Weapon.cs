@@ -33,6 +33,12 @@ public class Weapon : MonoBehaviour
         {
             case ItemData.WeaponType.WEAPON_0:
                 transform.Rotate(Vector3.back * speed * Time.deltaTime);
+                timer += Time.deltaTime;
+                if (timer > (3/(float)count))
+                {
+                    AudioManager.instance.PlaySfx(AudioManager.Sfx.Melee);
+                    timer = 0f;
+                }
                 break;
             default:
                 timer += Time.deltaTime;
@@ -152,5 +158,7 @@ public class Weapon : MonoBehaviour
 
         // init
         bulletTransform.GetComponent<Bullet>().Init(damage, count, direction);
+
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Range);
     }
 }
