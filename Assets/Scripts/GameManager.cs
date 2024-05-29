@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public LevelUp uiLevelUp;
     public Result uiResult;
     public GameObject enemyCleaner;
+    public Transform uiJoy;
 
     [Header("# Player Info")]
     public int playerId;
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        Application.targetFrameRate = 60;
     }
 
     public void GameStart(int id)
@@ -90,6 +92,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void GameQuit()
+    {
+        Application.Quit();
+    }
+
     private void Update()
     {
         if (!isLive)
@@ -141,11 +148,13 @@ public class GameManager : MonoBehaviour
     {
         isLive = false;
         Time.timeScale = 0f;
+        uiJoy.localScale = Vector3.zero;
     }
 
     public void Resume()
     {
         isLive = true;
         Time.timeScale = 1f;
+        uiJoy.localScale = Vector3.one;
     }
 }
