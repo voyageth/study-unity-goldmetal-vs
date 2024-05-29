@@ -137,7 +137,7 @@ public class Weapon : MonoBehaviour
             bulletTransform.Translate(bulletTransform.up * 1.5f, Space.World);
 
             // init
-            bulletTransform.GetComponent<Bullet>().Init(damage, -1, Vector3.zero); // -1 = Inf
+            bulletTransform.GetComponent<Bullet>().Init(damage, -100, Vector3.zero); // -100 = Inf
         }
     }
 

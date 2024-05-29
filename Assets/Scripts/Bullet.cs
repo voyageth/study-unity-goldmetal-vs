@@ -27,16 +27,25 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!collision.CompareTag("Enemy") || per < 0)
+        if (!collision.CompareTag("Enemy") || per == -100)
             return;
 
         per--;
 
-        if (per == -1)
+        if (per < 0)
         {
             bulletRigidBody.velocity = Vector3.zero;
             gameObject.SetActive(false);
         }
+
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("Area") || per == -100)
+            return;
+
+        gameObject.SetActive(false);
 
     }
 }
